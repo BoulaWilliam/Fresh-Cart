@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
@@ -19,7 +19,7 @@ import Checkout from './Pages/Checkout/Checkout';
 import Orders from './Pages/Orders/Orders';
 
 function App() {
-  const router = createBrowserRouter([
+  const router = createHashRouter([ // Use createHashRouter instead of createBrowserRouter
     {
       path: "/",
       element: <ProtectedRoute><Layout /></ProtectedRoute>,
@@ -44,7 +44,7 @@ function App() {
       ],
     },
   ], {
-    basename: "/Fresh-Cart", // Add this line
+    basename: "/Fresh-Cart", // Add this line to specify the path for GitHub Pages
   });
 
   return (
