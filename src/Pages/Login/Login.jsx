@@ -1,17 +1,15 @@
 import { useFormik } from 'formik';
-import { object, ref, string } from 'yup';
+import { object, string } from 'yup';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { userContext } from '../../context/UserContext/User.context';
 
 export default function Login() {
-
-  let {setToken} = useContext(userContext)
-
-  const navigate = useNavigate()
-  const [wrongEmailOrPassword, setWrongEmailOrPassword] = useState(null)
+  let { setToken } = useContext(userContext);
+  const navigate = useNavigate();
+  const [wrongEmailOrPassword, setWrongEmailOrPassword] = useState(null);
   const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
   const validationSchema = object({
@@ -21,25 +19,24 @@ export default function Login() {
       .matches(
         passRegex,
         'Password should be at least 8 characters, include one uppercase letter, one lowercase letter, one number, and one special character'
-      )
+      ),
   });
 
   async function sendDataToLogin(values) {
     const loadingToastId = toast.loading('Waiting...');
     try {
       const { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values);
-      if (data.message == "success") {
-        localStorage.setItem("userToken",data.token)
-        setToken(data.token)
-        toast.success("User Logged Successfully")
+      if (data.message === "success") {
+        localStorage.setItem("userToken", data.token);
+        setToken(data.token);
+        toast.success("User Logged In Successfully");
         setTimeout(() => {
-          navigate("/")
+          navigate("/");
         }, 2000);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message)
+      toast.error(error.response?.data?.message);
       setWrongEmailOrPassword(error.response?.data?.message);
-
     } finally {
       toast.dismiss(loadingToastId);
     }
@@ -59,7 +56,7 @@ export default function Login() {
       <h1 className="text-xl text-slate-700 font-semibold mb-5">
         <i className="fa-regular fa-circle-user"></i> Login
       </h1>
-      <form className="space-y-3" onSubmit={formik.handleSubmit}>
+      <form className="space-y-3 mb-3" onSubmit={formik.handleSubmit}>
 
         {/* Email */}
         <div className="email">
@@ -97,8 +94,7 @@ export default function Login() {
           )}
         </div>
 
-
-        {/* Sign Up Button */}
+        {/* Login Button */}
         <button
           type="submit"
           className="btn bg-primary-700 w-full hover:bg-primary-800 text-white"
@@ -106,6 +102,15 @@ export default function Login() {
           Login
         </button>
       </form>
+
+      {/* Register NavLink */}
+      <NavLink
+        to={'/signup'}
+        className="btn  bg-primary-700 w-full hover:bg-primary-800 text-white text-center block"
+      >
+        Don't Have An Account?
+      </NavLink>
+
     </>
   );
 }

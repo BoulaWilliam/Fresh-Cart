@@ -19,33 +19,33 @@ import Checkout from './Pages/Checkout/Checkout';
 import Orders from './Pages/Orders/Orders';
 
 function App() {
-  const router = createHashRouter([ // Use createHashRouter instead of createBrowserRouter
-    {
-      path: "/",
-      element: <ProtectedRoute><Layout /></ProtectedRoute>,
-      children: [
-        { index: true, element: <Home /> },
-        { path: "cart", element: <Cart /> },
-        { path: "products", element: <Products /> },
-        { path: "categories", element: <Category /> },
-        { path: "brands", element: <Brands /> },
-        { path: "wishlist", element: <WishList /> },
-        { path: "productDetails/:id", element: <ProductDetails /> },
-        { path: "checkout", element: <Checkout /> },
-        { path: "allorders", element: <Orders /> },
-      ],
-    },
-    {
-      path: "/",
-      element: <GuestRoute><Layout /></GuestRoute>,
-      children: [
-        { path: "login", element: <Login /> },
-        { path: "signup", element: <Signup /> },
-      ],
-    },
-  ], {
-    basename: "/Fresh-Cart", // Add this line to specify the path for GitHub Pages
-  });
+  const router = createHashRouter( // Change to createHashRouter
+    [
+      {
+        path: "/",
+        element: <ProtectedRoute><Layout /></ProtectedRoute>,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "cart", element: <Cart /> },
+          { path: "products", element: <Products /> },
+          { path: "categories", element: <Category /> },
+          { path: "brands", element: <Brands /> },
+          { path: "wishlist", element: <WishList /> },
+          { path: "productDetails/:id", element: <ProductDetails /> },
+          { path: "checkout", element: <Checkout /> },
+          { path: "allorders", element: <Orders /> },
+        ],
+      },
+      {
+        path: "/",
+        element: <GuestRoute><Layout /></GuestRoute>,
+        children: [
+          { path: "login", element: <Login /> },
+          { path: "signup", element: <Signup /> },
+        ],
+      },
+    ]
+  );
 
   return (
     <>
